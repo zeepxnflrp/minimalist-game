@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance == null || !GameManager.Instance.IsPlaying || Time.timeScale <= 0f) return;
+
         // movement
         if (Keyboard.current.spaceKey.isPressed)
         {

@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.IsPlaying);
             SpawnWave();
 
             yield return new WaitForSeconds(timeBetweenWaves);
@@ -48,6 +49,7 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < currentWaveSize; i++)
         {
+            yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.IsPlaying);
             float randomY = Random.Range(minY, maxY);
 
             Vector3 spawnPosition = new Vector3(
