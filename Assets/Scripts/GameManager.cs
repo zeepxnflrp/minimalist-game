@@ -47,7 +47,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!hasStarted) return;
+        if (!hasStarted)
+        {
+            if (Keyboard.current != null &&
+                (Keyboard.current.enterKey.wasPressedThisFrame ||
+                Keyboard.current.numpadEnterKey.wasPressedThisFrame))
+            {
+                StartGame();
+            }
+
+            return;
+        }
 
         // game ovaaaa
         if (gameOver)
