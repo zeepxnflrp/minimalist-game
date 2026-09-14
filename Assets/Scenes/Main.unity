@@ -439,7 +439,7 @@ MonoBehaviour:
   gameOverText: {fileID: 1889263688}
   menuAudioSource: {fileID: 597034420}
   sfxAudioSource: {fileID: 597034419}
-  menuMusic: {fileID: 8300000, guid: dc44a121818fec34abc8a26ffdf684c8, type: 3}
+  menuMusic: {fileID: 8300000, guid: c6cded1f151659e46ba157b31650b72e, type: 3}
   deathSound: {fileID: 8300000, guid: 83a7ce5071d0bf045804fd06c89f99bf, type: 3}
   menuVolume: 0.15
   deathVolume: 0.15
