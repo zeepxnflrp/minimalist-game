@@ -26,6 +26,17 @@ public class PlayerController : MonoBehaviour
     private float gravityShiftTimer = 0f;
     private bool wasTouchingCeiling = false;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip shootSound;
+    public AudioClip gravityShiftSound;
+
+    [Range(0f, 1f)]
+    public float shootVolume = 0.1f;
+
+    [Range(0f, 1f)]
+    public float gravityShiftVolume = 0.4f;
+
     void Start()
     {
         if (gravityShiftText != null)
@@ -115,12 +126,22 @@ public class PlayerController : MonoBehaviour
             firePoint.position,
             Quaternion.identity
         );
+
+        if (audioSource != null && shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound, shootVolume);
+        }
     }
 
     void ActivateGravityShift()
     {
         gravityShifted = true;
         gravityShiftTimer = gravityShiftDuration;
+
+        if (audioSource != null && gravityShiftSound != null)
+        {
+            audioSource.PlayOneShot(gravityShiftSound, gravityShiftVolume);
+        }
 
         if (gravityShiftText != null)
         {

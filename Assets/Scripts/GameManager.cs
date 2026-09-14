@@ -15,6 +15,20 @@ public class GameManager : MonoBehaviour
     public TMP_Text pauseText;
     public TMP_Text gameOverText;
 
+
+    [Header("Audio")]
+    public AudioSource menuAudioSource;
+    public AudioSource sfxAudioSource;
+
+    public AudioClip menuMusic;
+    public AudioClip deathSound;
+
+    [Range(0f, 1f)]
+    public float menuVolume = 0.25f;
+
+    [Range(0f, 1f)]
+    public float deathVolume = 0.4f;
+
     private float distance = 0f;
 
     private bool isPaused = false;
@@ -43,6 +57,8 @@ public class GameManager : MonoBehaviour
 
 
         UpdateDistanceText();
+
+        PlayMenuMusic();
     }
 
     void Update()
@@ -102,6 +118,12 @@ public class GameManager : MonoBehaviour
     {
         if (hasStarted) return;
         hasStarted = true;
+
+        if (menuAudioSource != null)
+        {
+            menuAudioSource.Stop();
+        }
+
         startPanel.SetActive(false);
         distanceText.gameObject.SetActive(true);
         Time.timeScale = 1f;
@@ -162,6 +184,26 @@ public class GameManager : MonoBehaviour
 
         gameOverText.gameObject.SetActive(true);
 
+        if (sfxAudioSource != null && deathSound != null)
+        {
+            sfxAudioSource.PlayOneShot(
+                deathSound,
+                deathVolume
+            );
+        }
+
         Time.timeScale = 0f;
+    }
+
+    void PlayMenuMusic(){
+        if (menuAudioSource == null || menuMusic == null)
+        {
+            return;
+        }
+
+        menuAudioSource.clip = menuMusic;
+        menuAudioSource.volume = menuVolume;
+        menuAudioSource.loop = true;
+        menuAudioSource.Play();
     }
 }
