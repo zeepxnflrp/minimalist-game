@@ -21,12 +21,15 @@ public class GameManager : MonoBehaviour
     private bool gameOver = false;
 
     private int bestDistance;
+    private bool hasStarted;
+    public GameObject startPanel;
+    public bool IsPlaying { get { return hasStarted && !isPaused && !gameOver; } }
 
     void Awake()
     {
         Instance = this;
 
-        Time.timeScale = 1f;
+        Time.timeScale = 0f;
     }
 
     void Start()
@@ -35,12 +38,27 @@ public class GameManager : MonoBehaviour
 
         pauseText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
+        distanceText.gameObject.SetActive(false);
+        startPanel.SetActive(true);
+
 
         UpdateDistanceText();
     }
 
     void Update()
     {
+        if (!hasStarted)
+        {
+            if (Keyboard.current != null &&
+                (Keyboard.current.enterKey.wasPressedThisFrame ||
+                Keyboard.current.numpadEnterKey.wasPressedThisFrame))
+            {
+                StartGame();
+            }
+
+            return;
+        }
+
         // game ovaaaa
         if (gameOver)
         {
@@ -80,6 +98,15 @@ public class GameManager : MonoBehaviour
         UpdateDistanceText();
     }
 
+    public void StartGame()
+    {
+        if (hasStarted) return;
+        hasStarted = true;
+        startPanel.SetActive(false);
+        distanceText.gameObject.SetActive(true);
+        Time.timeScale = 1f;
+    }
+
     void UpdateDistanceText()
     {
         distanceText.text =
@@ -105,6 +132,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        if (!hasStarted) return;
         if (gameOver)
             return;
 
