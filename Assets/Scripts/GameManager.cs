@@ -15,6 +15,20 @@ public class GameManager : MonoBehaviour
     public TMP_Text pauseText;
     public TMP_Text gameOverText;
 
+
+    [Header("Audio")]
+    public AudioSource menuAudioSource;
+    public AudioSource sfxAudioSource;
+
+    public AudioClip menuMusic;
+    public AudioClip deathSound;
+
+    [Range(0f, 1f)]
+    public float menuVolume = 0.25f;
+
+    [Range(0f, 1f)]
+    public float deathVolume = 0.4f;
+
     private float distance = 0f;
 
     private bool isPaused = false;
@@ -43,20 +57,24 @@ public class GameManager : MonoBehaviour
 
 
         UpdateDistanceText();
+
+        PlayMenuMusic();
     }
 
     void Update()
     {
         if (!hasStarted)
         {
-            if (Keyboard.current != null &&
-                (Keyboard.current.enterKey.wasPressedThisFrame ||
-                Keyboard.current.numpadEnterKey.wasPressedThisFrame))
+            if (!hasStarted)
             {
-                StartGame();
-            }
+                if (Keyboard.current != null &&
+                    Keyboard.current.spaceKey.wasPressedThisFrame)
+                {
+                    StartGame();
+                }
 
-            return;
+                return;
+            }
         }
 
         // game ovaaaa
@@ -102,6 +120,12 @@ public class GameManager : MonoBehaviour
     {
         if (hasStarted) return;
         hasStarted = true;
+
+        if (menuAudioSource != null)
+        {
+            menuAudioSource.Stop();
+        }
+
         startPanel.SetActive(false);
         distanceText.gameObject.SetActive(true);
         Time.timeScale = 1f;
@@ -161,7 +185,34 @@ public class GameManager : MonoBehaviour
             $"best {bestDistance} m";
 
         gameOverText.gameObject.SetActive(true);
+        
+        PlayerController player = FindAnyObjectByType<PlayerController>();
+
+        if (player != null)
+        {
+            player.StopPlayerAudio();
+        }
+        
+        if (sfxAudioSource != null && deathSound != null)
+        {
+            sfxAudioSource.PlayOneShot(
+                deathSound,
+                deathVolume
+            );
+        }
 
         Time.timeScale = 0f;
+    }
+
+    void PlayMenuMusic(){
+        if (menuAudioSource == null || menuMusic == null)
+        {
+            return;
+        }
+
+        menuAudioSource.clip = menuMusic;
+        menuAudioSource.volume = menuVolume;
+        menuAudioSource.loop = true;
+        menuAudioSource.Play();
     }
 }

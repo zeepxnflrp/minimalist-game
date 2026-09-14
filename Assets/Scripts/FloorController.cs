@@ -13,6 +13,13 @@ public sealed class FloorController : MonoBehaviour
     [SerializeField] private Color dangerColor = Color.red;
     [SerializeField] private Collider2D playerCollider;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip lavaSound;
+
+    [SerializeField, Range(0f, 1f)]
+    private float lavaVolume = 0.4f;
+
     private enum Phase { Safe, Warning, Dangerous }
     private Phase phase;
     private float remaining;
@@ -43,6 +50,11 @@ public sealed class FloorController : MonoBehaviour
         phase = Phase.Safe;
         remaining = Random.Range(minimumWait, maximumWait);
         floorRenderer.color = normalColor;
+
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
     }
 
     private void Update()
@@ -70,6 +82,13 @@ public sealed class FloorController : MonoBehaviour
                 phase = Phase.Dangerous;
                 remaining = dangerDuration;
                 floorRenderer.color = dangerColor;
+                if (audioSource != null && lavaSound != null)
+                {
+                    audioSource.clip = lavaSound;
+                    audioSource.volume = lavaVolume;
+                    audioSource.loop = false;
+                    audioSource.Play();
+                }
             }
         }
         else if (remaining <= 0f) BeginSafePhase();
@@ -83,7 +102,12 @@ public sealed class FloorController : MonoBehaviour
         Physics2D.SyncTransforms();
         ColliderDistance2D contact = floorCollider.Distance(playerCollider);
         if (contact.isValid && contact.distance <= 0.001f && GameManager.Instance != null)
+        {
+            if (audioSource != null){
+                audioSource.Stop();
+            }
             GameManager.Instance.EndGame();
+        }
     }
 
     private void OnDisable()
