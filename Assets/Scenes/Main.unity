@@ -1110,7 +1110,7 @@ MonoBehaviour:
   maxY: 4.3
   bulletPrefab: {fileID: 6072515602711994089, guid: 2d06d8c9a3219204a9da9ea4d2f788d4, type: 3}
   firePoint: {fileID: 1102212471}
-  fireInterval: 0.3
+  fireInterval: 0.45
   gravityShiftDuration: 10
   gravityShiftText: {fileID: 1179746003}
   audioSource: {fileID: 992260458}

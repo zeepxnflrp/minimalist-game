@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [Header("Shooting")]
     public GameObject bulletPrefab;
     public Transform firePoint;
-    public float fireInterval = 0.30f;
+    public float fireInterval = 0.3f;
 
     private float nextFireTime;
 
@@ -148,8 +148,16 @@ public class PlayerController : MonoBehaviour
             gravityShiftText.gameObject.SetActive(true);
 
             gravityShiftText.text =
-                $"GRAVITY ↓  {gravityShiftTimer:F1}s";
+                $"gravity reversed  {gravityShiftTimer:F1}s";
         }
     }
 
+
+    public void StopPlayerAudio()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+    }
 }

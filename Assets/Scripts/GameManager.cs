@@ -183,7 +183,14 @@ public class GameManager : MonoBehaviour
             $"best {bestDistance} m";
 
         gameOverText.gameObject.SetActive(true);
+        
+        PlayerController player = FindAnyObjectByType<PlayerController>();
 
+        if (player != null)
+        {
+            player.StopPlayerAudio();
+        }
+        
         if (sfxAudioSource != null && deathSound != null)
         {
             sfxAudioSource.PlayOneShot(
