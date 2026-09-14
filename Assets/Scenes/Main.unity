@@ -2678,7 +2678,7 @@ MonoBehaviour:
     Travel
     as far as you can!
 
-    ESC: pause | SPACE: resume or retry'
+    ESC: pause | SPACE: start or resume or retry'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cf764e1df15e80946b5d84eb12444e14, type: 2}
   m_sharedMaterial: {fileID: 5626675068413662893, guid: cf764e1df15e80946b5d84eb12444e14, type: 2}
@@ -2705,7 +2705,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.6
+  m_fontSize: 21.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

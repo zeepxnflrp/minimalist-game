@@ -65,14 +65,16 @@ public class GameManager : MonoBehaviour
     {
         if (!hasStarted)
         {
-            if (Keyboard.current != null &&
-                (Keyboard.current.enterKey.wasPressedThisFrame ||
-                Keyboard.current.numpadEnterKey.wasPressedThisFrame))
+            if (!hasStarted)
             {
-                StartGame();
-            }
+                if (Keyboard.current != null &&
+                    Keyboard.current.spaceKey.wasPressedThisFrame)
+                {
+                    StartGame();
+                }
 
-            return;
+                return;
+            }
         }
 
         // game ovaaaa
